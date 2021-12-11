@@ -1,0 +1,53 @@
+import "google/protobuf/empty.proto";
+
+syntax = "proto3";
+package user;
+
+service User {
+  rpc getUser (GetUserRequest) returns (UserModel) {}
+  rpc createUser (CreateUserRequest) returns (UserModel) {}
+  rpc getAllUsers (google.protobuf.Empty) returns (stream UserModel) {}
+  rpc patchUser (PatchUserRequest) returns (UserModel) {}
+  rpc deleteUser (DeleteUserRequest) returns (google.protobuf.Empty) {}
+}
+
+message UserModel {
+  enum Job {
+    CTO = 0;
+    DEVELOPER = 1;
+    PRODUCT_OWNER = 2;
+  }
+  required int32 userId = 1;
+  required string firstname = 2;
+  required int32 age = 3;
+  optional string lastname = 4;
+  optional Job job = 5;
+}
+
+// GET
+message GetUserRequest {
+  required int32 userId = 1;
+}
+
+// CREATE
+message CreateUserRequest {
+  required string firstname = 1;
+  required Job job = 2;
+  optional int32 age = 3;
+  optional string lastname = 4;
+}
+
+// UPDATE
+message PatchUserRequest {
+  required int32 userId = 1;
+
+  optional string firstname = 2;
+  optional Job job = 3;
+  optional int32 age = 4;
+  optional string lastname = 5;
+}
+
+// DELETE
+message DeleteUserRequest {
+  required int32 userId = 1;
+}
